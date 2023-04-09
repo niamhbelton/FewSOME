@@ -221,7 +221,7 @@ def train(model, lr, weight_decay, train_dataset, val_dataset, epochs, criterion
                 best_df=df
                 max_iter = 0
 
-
+                training_time = time.time() - start_time
                 write_results(model_name, normal_class, model, df, ref_vecs,num_ref_eval, num_ref_dist, val_auc, epoch, val_auc_min, training_time,f1,acc, train_losses)
 
             else:
