@@ -267,10 +267,10 @@ def train(model, lr, weight_decay, train_dataset, val_dataset, epochs, criterion
 
     print("Finished Training")
     if eval_epoch == 1:
-        print("AUC was {} on epoch {}".format(best_val_auc_min, best_epoch))
+        print("AUC was {} on epoch {}".format(best_val_auc_min, best_epoch+1))
         return best_val_auc, best_epoch, best_val_auc_min, training_time_temp, best_f1, best_acc,train_losses
     else:
-        print("AUC was {} on epoch {}".format(val_auc_min, epoch))
+        print("AUC was {} on epoch {}".format(val_auc_min, epoch+1))
         return val_auc, epoch, val_auc_min, training_time, f1,acc, train_losses
 
 
