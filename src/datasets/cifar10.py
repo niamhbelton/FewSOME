@@ -74,38 +74,24 @@ class CIFAR10(data.Dataset):
 
         self.data = np.vstack(self.data).reshape(-1, 3, 32, 32)
 
-
+        self.targets = np.array(self.targets)
         if self.indexes != []: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
           if (self.task == 'train') :
               random.seed(1)
-              anom_ind = random.sample(np.where(np.array(self.targets) != self.normal_class)[0].tolist(), 0)
-              self.data1 = np.array(self.data)[self.indexes]
-              self.data = np.concatenate((self.data1, self.data[anom_ind]))
-              new_targets=[]
-              for i in indexes:
-                new_targets.append(self.targets[i])
-              for i in anom_ind:
-                 new_targets.append(self.targets[i])
-              self.targets = new_targets
+              self.data = np.array(self.data)[self.indexes]
 
+              self.targets = self.targets[self.indexes]
 
 
           elif self.task == 'validate':
               lst = list(range(0,len(self.data) ))
+              ind = [x for i,x in enumerate(lst) if (i not in self.indexes)]
               random.seed(1)
-              anom_ind = random.sample(np.where(np.array(self.targets) != self.normal_class)[0].tolist(), 0)
-              ind = [x for i,x in enumerate(lst) if (i not in self.indexes) & (i not in anom_ind)]
-              random.seed(1)
-              randomlist = random.sample(range(0, len(ind)), 1500)
-              self.data = self.data[randomlist]
-              new_targets=[]
-              for i in randomlist:
-                new_targets.append(self.targets[i])
-              self.targets = new_targets
+              val_indexes = random.sample(range(0, len(ind)), 1500)
+              self.data = self.data[val_indexes]
+              self.targets = self.targets[val_indexes]
 
 
-
-          self.targets = np.array(self.targets)
           self.targets[self.targets != normal_class] = -1
           self.targets[self.targets == normal_class] = -2
           self.targets[self.targets == -2] = 0
@@ -125,19 +111,8 @@ class CIFAR10(data.Dataset):
 
     def __getitem__(self, index: int, seed = 1, base_ind=-1):
 
-        if (index >= len(self.indexes)) & (self.task =='train'):
-        #    index = np.random.randint(len(self.indexes.tolist()) )
-            img, target = self.data[index], int(self.targets[index])
-        #    img = trans(img.copy())
-        #    img = cv2.GaussianBlur(img,(11,11),0)
-
-
-            label = torch.Tensor([1])
-
-        else:
-            img, target = self.data[index], int(self.targets[index])
-            label = torch.Tensor([0])
-        #img = img / 255
+        img, target = self.data[index], int(self.targets[index])
+        label = torch.Tensor([0])
 
         base=False
         if self.task == 'train':
