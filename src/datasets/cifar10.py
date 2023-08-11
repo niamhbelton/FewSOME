@@ -38,7 +38,7 @@ class CIFAR10(data.Dataset):
 
 
     def __init__(self, indexes, root: str, normal_class,
-            task, data_path,
+            task,
             download_data = False):
         super().__init__()
 
@@ -75,13 +75,10 @@ class CIFAR10(data.Dataset):
         self.data = np.vstack(self.data).reshape(-1, 3, 32, 32)
 
         self.targets = np.array(self.targets)
-        if self.indexes != []: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
+        if len(self.indexes) != 0: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
           if (self.task == 'train') :
-              random.seed(1)
               self.data = np.array(self.data)[self.indexes]
-
               self.targets = self.targets[self.indexes]
-
 
           elif self.task == 'validate':
               lst = list(range(0,len(self.data) ))
@@ -98,15 +95,11 @@ class CIFAR10(data.Dataset):
           self.targets[self.targets == -1] = 1
 
 
-
-
     def download(self) -> None:
         download_and_extract_archive(self.url, self.data_path, filename=self.filename, md5=self.tgz_md5)
 
     def extra_repr(self) -> str:
         return "Split: {}".format("Train" if self.train is True else "Test")
-
-
 
 
     def __getitem__(self, index: int, seed = 1, base_ind=-1):
@@ -117,7 +110,7 @@ class CIFAR10(data.Dataset):
         base=False
         if self.task == 'train':
             np.random.seed(seed)
-            ind = np.random.randint(len(self.indexes.tolist()) )
+            ind = np.random.randint(len(self.indexes.tolist()) ) #if img2 is the same as img, regenerate ind
             c=1
             while (ind == index):
                 np.random.seed(seed * c)
@@ -129,14 +122,14 @@ class CIFAR10(data.Dataset):
 
             img2, target2 = self.data[ind], int(self.targets[ind])
 
-
-
         else:
-            img2 = torch.Tensor([1]) #not required
+            img2 = torch.Tensor([1]) #not required if task is not equal to train
             label = torch.Tensor([target])
 
+        img = torch.FloatTensor(img).squeeze(0).squeeze(0) #convert to 3x32x32
+        img2 = torch.FloatTensor(img2).squeeze(0).squeeze(0)
 
-        return torch.FloatTensor(img).squeeze(0).squeeze(0), torch.FloatTensor(img2).squeeze(0).squeeze(0), label, base
+        return img, img2, label, base
 
 
 
