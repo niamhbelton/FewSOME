@@ -21,10 +21,6 @@ class FASHION(data.Dataset):
     ]
     classes = ["T-shirt/top", "Trouser", "Pullover", "Dress", "Coat", "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"]
 
-    training_file = 'training.pt'
-    test_file = 'test.pt'
-
-
     def __init__(self, indexes, root: str, normal_class,
             task, data_path,
             download_data = False,
@@ -36,8 +32,6 @@ class FASHION(data.Dataset):
         self.normal_class = normal_class
         self.download_data = download_data
 
-
-
         if self.download_data:
             self.download()
 
@@ -47,7 +41,7 @@ class FASHION(data.Dataset):
 
         self.data, self.targets = self._load_data()
 
-        if self.indexes != []: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
+        if len(self.indexes) != 0: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
           self.targets[self.targets != normal_class] = -1
           self.targets[self.targets == normal_class] = -2
           self.targets[self.targets == -2] = 0
@@ -107,7 +101,7 @@ class FASHION(data.Dataset):
             label_file = "train-labels-idx1-ubyte"
             targets = self.read_label_file(os.path.join(self.data_path, label_file))
 
-            if (self.task == 'train') & (self.indexes != []):
+            if (self.task == 'train') & (len(self.indexes) != 0):
                 data = data[self.indexes]
                 targets = targets[self.indexes]
             elif self.task == 'validate':
@@ -128,15 +122,13 @@ class FASHION(data.Dataset):
 
     def __getitem__(self, index: int, seed = 1, base_ind=-1):
 
-
-
         base=False
         img, target = self.data[index], int(self.targets[index])
         img = torch.stack((img,img,img),0)
 
         if self.task == 'train':
             np.random.seed(seed)
-            ind = np.random.randint(len(self.indexes) )
+            ind = np.random.randint(len(self.indexes) ) #if img2 is the same as img, regenerate ind
             c=1
             while (ind == index):
                 np.random.seed(seed * c)
@@ -144,15 +136,14 @@ class FASHION(data.Dataset):
                 c=c+1
 
             if ind == base_ind:
-              base = True
+              base = True #img2 is equal to the anchor
 
             img2, target2 = self.data[ind], int(self.targets[ind])
             img2 = torch.stack((img2,img2,img2),0)
             label = torch.FloatTensor([0])
         else:
-            img2 = torch.Tensor([1])
+            img2 = torch.Tensor([1]) #if task is not equal to 'train', img2 is not required
             label = target
-
 
 
         return img, img2, label, base
