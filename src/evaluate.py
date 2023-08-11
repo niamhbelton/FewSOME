@@ -328,13 +328,6 @@ if __name__ == '__main__':
 
     val_auc, val_loss, val_auc_min, f1,acc, df, ref_vecs, inf_times, total_times = evaluate(anchor, args.seed, base_ind, ref_dataset, val_dataset, model, args.dataset, args.normal_class, args.model_name, indexes, args.data_path, criterion, args.alpha, args.num_ref_eval, args.device)
 
-
-    print('AUC is {}'.format(val_auc_min))
-    print('F1 is {}'.format(f1))
-    print('Balanced accuracy is {}'.format(acc))
-
-
-
     #write out all details of model training
     cols = ['normal_class', 'auc_min','f1','acc']
     params = [args.normal_class, val_auc_min, f1,acc]
