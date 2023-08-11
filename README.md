@@ -253,6 +253,8 @@ parser.add_argument('-m', '--model_name', type=str, required=True)
 
 '--early_stopping' - if the rate at which the loss is decreasing is less than .5% for a patience of 2, stop training.
 
+'--device' - specify device to run model on
+
 '-i' - specify indexes of training set to have as a reference set 
 
 
