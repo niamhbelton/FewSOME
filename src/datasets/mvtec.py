@@ -13,7 +13,7 @@ class MVTEC(data.Dataset):
 
 
 
-    def __init__(self, indexes, root: str, normal_class,
+    def __init__(self, indexes, normal_class,
             task, data_path, seed,N,
     ) -> None:
         super().__init__()
@@ -29,7 +29,7 @@ class MVTEC(data.Dataset):
         self.targets=[]
 
         if self.task == 'train':
-            path2 = root + folder + '/train/good/'
+            path2 = self.data_path + folder + '/train/good/'
             images = os.listdir(path2)
             random.seed(seed)
             self.indexes = random.sample(list(range(0,len(images))), N)
@@ -45,7 +45,7 @@ class MVTEC(data.Dataset):
 
 
         elif self.task == 'test':
-            path2 = root + folder + '/test/'
+            path2 = self.data_path + folder + '/test/'
             types = os.listdir(path2)
             for ty in types:
                 path3 = path2 + ty
@@ -63,15 +63,8 @@ class MVTEC(data.Dataset):
                     else:
                         self.targets.append(torch.Tensor([1]))
 
-            print(len(self.data))
-            print(len(self.targets))
-
-
-
 
     def __getitem__(self, index: int, seed = 1, base_ind=-1):
-
-
 
         base=False
         img, target = self.data[index], int(self.targets[index])
@@ -81,19 +74,19 @@ class MVTEC(data.Dataset):
             np.random.seed(seed)
             ind = np.random.randint(len(self.indexes) )
             c=1
-            while (ind == index):
+            while (ind == index): #if img2 is the same as img, regenerate ind
                 np.random.seed(seed * c)
                 ind = np.random.randint(len(self.indexes) )
                 c=c+1
 
             if ind == base_ind:
-              base = True
+              base = True #img2 is equal to the anchor
 
             img2, target2 = self.data[ind], int(self.targets[ind])
             img2 = torch.FloatTensor(img2)
             label = torch.FloatTensor([0])
         else:
-            img2 = torch.Tensor([1])
+            img2 = torch.Tensor([1]) #if task is not equal to 'train', img2 is not required
             label = target
 
 
