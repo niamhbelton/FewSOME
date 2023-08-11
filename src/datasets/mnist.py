@@ -23,8 +23,7 @@ class MNIST(data.Dataset):
         ("t10k-labels-idx1-ubyte.gz", "ec29112dd5afa0611ce80d1b7f02629c")
     ]
 
-    training_file = 'training.pt'
-    test_file = 'test.pt'
+
     classes = ['0 - zero', '1 - one', '2 - two', '3 - three', '4 - four',
                '5 - five', '6 - six', '7 - seven', '8 - eight', '9 - nine']
 
@@ -52,7 +51,7 @@ class MNIST(data.Dataset):
 
         self.data, self.targets = self._load_data()
 
-        if self.indexes != []: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
+        if len(self.indexes) != 0: #if indexes is equal to [], original labels are not modified as this dataloader object is used by the 'create_reference' function. This function requires the original labels
           self.targets[self.targets != normal_class] = -1
           self.targets[self.targets == normal_class] = -2
           self.targets[self.targets == -2] = 0
@@ -113,7 +112,7 @@ class MNIST(data.Dataset):
             label_file = "train-labels-idx1-ubyte"
             targets = self.read_label_file(os.path.join(self.data_path, label_file))
 
-            if (self.task == 'train') & (self.indexes != []):
+            if (self.task == 'train') & (len(self.indexes ) != 0):
                 data = data[self.indexes]
                 targets = targets[self.indexes]
             elif self.task == 'validate':
@@ -143,19 +142,19 @@ class MNIST(data.Dataset):
             np.random.seed(seed)
             ind = np.random.randint(len(self.indexes) )
             c=1
-            while (ind == index):
+            while (ind == index): #if img2 is the same as img, regenerate ind
                 np.random.seed(seed * c)
                 ind = np.random.randint(len(self.indexes) )
                 c=c+1
 
             if ind == base_ind:
-              base = True
+              base = True #img2 is equal to the anchor
 
             img2, target2 = self.data[ind], int(self.targets[ind])
             img2 = torch.stack((img2,img2,img2),0)
             label = torch.FloatTensor([0])
         else:
-            img2 = torch.Tensor([1])
+            img2 = torch.Tensor([1]) #if task is not equal to 'train', img2 is not required
             label = target
 
 
