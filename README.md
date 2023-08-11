@@ -49,7 +49,7 @@ python3 train.py -m model --num_ref_eval 30 --lr 1e-6 --batch_size 1 --weight_in
 
 ```
 
-| normal_class | epochs | alpha | batch_size | vectir_size | k | lr | pretrain | 
+| normal_class | epochs | alpha | batch_size | vector_size | k | lr | pretrain | 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | 8 | 0.01 | 1 | 1024 | 2 | 1e-5 | 1|
 | 1 | 7 | 0.01 | 1 | 1024 | 2 | 1e-6 | 1|
@@ -209,7 +209,7 @@ parser.add_argument('-m', '--model_name', type=str, required=True)
 
 '--lr' - specify the learning rate
 
-'--vector_size' - specify the dimensions of the feature embeddings.
+'--vector_size' - specify the number of elements in the 1D feature embedding (representation).
 
 '--weight_decay' - specify the weight decay
 
