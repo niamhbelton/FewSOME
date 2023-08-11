@@ -23,15 +23,11 @@ def load_dataset(dataset_name, indexes, normal_class, task, data_path, download_
                                 download_data = download_data)
 
 
-
-
-
     if dataset_name == 'cifar10':
         dataset = CIFAR10(indexes = indexes,
                                 root=data_path,
                                 normal_class=normal_class,
                                 task = task,
-                                data_path = data_path,
                                 download_data = download_data)
 
     if dataset_name == 'fashion':
@@ -45,12 +41,10 @@ def load_dataset(dataset_name, indexes, normal_class, task, data_path, download_
 
     if dataset_name == 'mvtec':
         dataset = MVTEC(indexes = indexes,
-                                root=data_path,
                                 normal_class=normal_class,
                                 task = task,
                                 data_path = data_path,
                                 seed=seed,
                                 N=N)
-
 
     return dataset
