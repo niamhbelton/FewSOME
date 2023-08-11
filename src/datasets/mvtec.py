@@ -12,12 +12,6 @@ import random
 class MVTEC(data.Dataset):
 
 
-    training_file = 'training.pt'
-    test_file = 'test.pt'
-    classes = ['0 - zero', '1 - one', '2 - two', '3 - three', '4 - four',
-               '5 - five', '6 - six', '7 - seven', '8 - eight', '9 - nine']
-
-
 
     def __init__(self, indexes, root: str, normal_class,
             task, data_path, seed,N,
@@ -41,9 +35,9 @@ class MVTEC(data.Dataset):
             self.indexes = random.sample(list(range(0,len(images))), N)
             for ind in self.indexes:
                 im = cv2.imread(path2 + images[ind])
-                im2 =cv2.resize( im[:,:,0] , (64,64))
-                im3 =cv2.resize( im[:,:,1] , (64,64))
-                im4 =cv2.resize( im[:,:,2] , (64,64))
+                im2 =cv2.resize( im[:,:,0] , (128,128))
+                im3 =cv2.resize( im[:,:,1] , (128,128))
+                im4 =cv2.resize( im[:,:,2] , (128,128))
                 im = np.stack((im2,im3,im4))
                 self.data.append(im)
 
@@ -58,9 +52,9 @@ class MVTEC(data.Dataset):
                 images= os.listdir(path3)
                 for image in images:
                     im = cv2.imread(path2 + ty + '/' + image)
-                    im2 =cv2.resize( im[:,:,0] , (64,64))
-                    im3 =cv2.resize( im[:,:,1] , (64,64))
-                    im4 =cv2.resize( im[:,:,2] , (64,64))
+                    im2 =cv2.resize( im[:,:,0] , (128,128))
+                    im3 =cv2.resize( im[:,:,1] , (128,128))
+                    im4 =cv2.resize( im[:,:,2] , (128,128))
                     im = np.stack((im2,im3,im4))
                     self.data.append(im)
 
