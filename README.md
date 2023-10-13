@@ -1,15 +1,22 @@
-# FewSOME
+# FewSOME: One-Class Few Shot Anomaly Detection with Siamese Networks
 
 This repository contains a Pytorch implementation of FewSOME: One-Class Few Shot Anomaly Detection with Siamese Networks.
+
+
 
 
 ## BibTeX Citation 
 
 @inproceedings{belton2023fewsome,
+
   title={FewSOME: One-Class Few Shot Anomaly Detection With Siamese Networks},
+
   author={Belton, Niamh and Hagos, Misgina Tsighe and Lawlor, Aonghus and Curran, Kathleen M},
+  
   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops},
+  
   pages={2977--2986},
+  
   year={2023}
 }
 
