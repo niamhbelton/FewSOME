@@ -1,8 +1,12 @@
 # FewSOME: One-Class Few Shot Anomaly Detection with Siamese Networks
 
-This repository contains a Pytorch implementation of FewSOME: One-Class Few Shot Anomaly Detection with Siamese Networks.
+This repository contains a Pytorch implementation of [FewSOME: One-Class Few Shot Anomaly Detection with Siamese Networks](https://arxiv.org/pdf/2301.06957.pdf).
+
+## Abstract
+Recent Anomaly Detection techniques have progressed the field considerably but at the cost of increasingly complex training pipelines. Such techniques require large amounts of training data, resulting in computationally expensive algorithms that are unsuitable for settings where only a small amount of normal samples are available for training. We propose '**Few** **S**hot an**OM**aly d**E**tection' (FewSOME), a deep One-Class Anomaly Detection algorithm with the ability to accurately detect anomalies having trained on 'few' examples of the normal class and no examples of the anomalous class. We describe FewSOME to be of low complexity given its low data requirement and short training time. FewSOME is aided by pretrained weights with an architecture based on Siamese Networks. By means of an ablation study, we demonstrate how our proposed loss, 'Stop Loss', improves the robustness of FewSOME. Our experiments demonstrate that FewSOME performs at state-of-the-art level on benchmark datasets MNIST, CIFAR-10, F-MNIST and MVTec AD while training on only 30 normal samples, a minute fraction of the data that existing methods are trained on. Moreover, our experiments show FewSOME to be robust to contaminated datasets. We also report F1 score and balanced accuracy in addition to AUC as a benchmark for future techniques to be compared against. 
 
 
+![fewsome_architecture](https://github.com/niamhbelton/FewSOME/assets/71726124/5569d5a6-e7f8-4d58-9353-0cdca7af0759)
 
 
 ## BibTeX Citation 
@@ -20,8 +24,6 @@ This repository contains a Pytorch implementation of FewSOME: One-Class Few Shot
   year={2023}
 }
 
-## Abstract
-Recent Anomaly Detection techniques have progressed the field considerably but at the cost of increasingly complex training pipelines. Such techniques require large amounts of training data, resulting in computationally expensive algorithms that are unsuitable for settings where only a small amount of normal samples are available for training. We propose '**Few** **S**hot an**OM**aly d**E**tection' (FewSOME), a deep One-Class Anomaly Detection algorithm with the ability to accurately detect anomalies having trained on 'few' examples of the normal class and no examples of the anomalous class. We describe FewSOME to be of low complexity given its low data requirement and short training time. FewSOME is aided by pretrained weights with an architecture based on Siamese Networks. By means of an ablation study, we demonstrate how our proposed loss, 'Stop Loss', improves the robustness of FewSOME. Our experiments demonstrate that FewSOME performs at state-of-the-art level on benchmark datasets MNIST, CIFAR-10, F-MNIST and MVTec AD while training on only 30 normal samples, a minute fraction of the data that existing methods are trained on. Moreover, our experiments show FewSOME to be robust to contaminated datasets. We also report F1 score and balanced accuracy in addition to AUC as a benchmark for future techniques to be compared against. 
 
 
 ## Installation 
